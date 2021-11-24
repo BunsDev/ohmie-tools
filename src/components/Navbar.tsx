@@ -6,7 +6,7 @@ export default function Navbar(): JSX.Element {
 	return (
 		<BSNavbar expand="lg" variant={"dark"}>
 			<div className="container-fluid">
-				<BSNavbar.Brand href="#home">ohmie.tools</BSNavbar.Brand>
+				<Link to={"/"} className={"navbar-brand"}>ohmie.tools</Link>
 				<BSNavbar.Toggle aria-controls="basic-navbar-nav" />
 				<BSNavbar.Collapse id={"basic-navbar-nav"}>
 					<ul className="navbar-nav me-auto mb-2 mb-lg-0">
