@@ -16,19 +16,30 @@ export default function Home(): JSX.Element {
 							<div className="card">
 								<div className="card-header">Tools Available</div>
 								<div className="list-group list-group-flush text-start">
+									<div className="list-group-item text-muted">
+										Calculators
+									</div>
 									<div className="list-group-item">
 										<small className={"text-muted"}>
-											Calculators
+											Rari.capital Fuse
 										</small>
 									</div>
-									<Link to="/tools/opp-liquidation-price" className="list-group-item">
-										&rarr; Liquidation Price <small className="text-muted">Rari Fuse (Olympus Pool Party)</small>
+									<Link to="/tools/fuse/6" className="list-group-item">
+										&rarr; Liquidation Price <small className="text-muted">Pool #6 (Tetranode&apos;s Locker)</small>
 									</Link>
-									<Link to="/tools/tetranode-liquidation-price" className="list-group-item">
-										&rarr; Liquidation Price <small className="text-muted">Rari Fuse (Tetranode&apos;s Locker)</small>
+									<Link to="/tools/fuse/18" className="list-group-item">
+										&rarr; Liquidation Price <small className="text-muted">Pool #18 (Olympus Pool Party)</small>
 									</Link>
 									<Link to="/tools/fuse/36" className="list-group-item">
-										&rarr; Liquidation Price <small className="text-muted">Rari Fuse (Fraximalist Money Market)</small>
+										&rarr; Liquidation Price <small className="text-muted">Pool #36 (Fraximalist Money Market)</small>
+									</Link>
+									<div className="list-group-item">
+										<small className={"text-muted"}>
+											Market.xyz
+										</small>
+									</div>
+									<Link to="/market-xyz/polygon/pool/5" className="list-group-item">
+										&rarr; Liquidation Price <small className="text-muted">Pool #5 (Green Leverage Locker)</small>
 									</Link>
 								</div>
 							</div>
