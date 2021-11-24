@@ -198,7 +198,7 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 												<p className="small text-muted mb-2">
 													Your Liquidation Price:
 												</p>
-												<p className="lead"><span title={liquidationPrice+" USD"}><span className={liquidationPrice >= collateralAssetPrice ? "text-danger" : ""}>${liquidationPrice.toFixed(2)}</span> <small className={"text-muted"}>USD</small></span></p>
+												<p className="lead"><span title={liquidationPrice+" USD"}><span className={(liquidationPrice >= collateralAssetPrice && collateralAssetPrice > 0) ? "text-danger" : ""}>${liquidationPrice.toFixed(2)}</span> <small className={"text-muted"}>USD</small></span></p>
 											</div>
 										</div>
 									</div>
