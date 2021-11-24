@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Modal } from "react-bootstrap"
+import { Dropdown, Modal } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Default from "../../../layouts/Default"
-import MARKET_XYZ_POOLS from "../../../data/marketXyzPools"
+import MARKET_XYZ_POOLS, { CollateralAsset } from "../../../data/marketXyzPools"
 
 export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 	const { poolId } = useParams<{ poolId: string | undefined }>()
@@ -18,6 +18,7 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 
 	// States
 	const [collateralFactor, setCollateralFactor] = useState<number>(0)
+	const [collateralAsset, setCollateralAsset] = useState<CollateralAsset | null>(pool.collateralAssets[0] || null)
 	const [collateralAssetPrice, setCollateralAssetPrice] = useState<number>(0)
 	const [lendingAmount, setLendingAmount] = useState<number>(0)
 	const [borrowAmount, setBorrowAmount] = useState<number>(0)
@@ -28,14 +29,20 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 
 	// Effects
 	useEffect(() => {
-		(async () => {
-			setCollateralAssetPrice(
-				((await (
-					await fetch("https://api.coingecko.com/api/v3/coins/klima-dao")
-				).json())).market_data.current_price.usd
-			)
-		})()
-	}, [])
+		if (collateralAsset) {
+			(async () => {
+				setCollateralAssetPrice(
+					((await (
+						await fetch(collateralAsset.apiUrl)
+					).json())).market_data.current_price.usd
+				)
+			})()
+		}
+	}, [collateralAsset])
+
+	useEffect(() => {
+		//
+	}, [collateralAsset])
 
 	useEffect(() => {
 		if (collateralAssetPrice === 0 || borrowAmount === 0 || lendingAmount === 0) {
@@ -49,14 +56,24 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 
 	// Update collateral factor each time a pool is changed
 	useEffect(() => {
-		setCollateralFactor(pool.collateralAsset.collateralFactor)
-	}, [pool])
+		if (collateralAsset) {
+			setCollateralFactor(collateralAsset.collateralFactor)
+		}
+	}, [pool, collateralAsset])
 
 	// Methods
 	const numberFormatter = Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: "USD"
 	})
+
+	if (null === collateralAsset) {
+		return (
+			<>
+				<p className="lead text-center">Invalid collateral asset chosen.</p>
+			</>
+		)
+	}
 
 	// Render
 	return (
@@ -94,9 +111,9 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 									<a
 										onClick={event => {
 											event.preventDefault()
-											setCollateralFactor(pool.collateralAsset.collateralFactor)
+											setCollateralFactor(collateralAsset.collateralFactor)
 										}}
-									>{pool.collateralAsset.collateralFactor}</a>
+									>{collateralAsset.collateralFactor}</a>
 								</p>
 							</div>
 						</div>
@@ -140,6 +157,29 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 									</small>
 								</p>
 								<form action="#" method={"GET"}>
+									<div className="form-group mb-3">
+										<label htmlFor="collateralAsset">
+											Collateral Asset
+										</label>
+										<div className="controls">
+											<Dropdown>
+												<Dropdown.Toggle variant={"dark"}>{collateralAsset.symbol} ({collateralAsset.collateralFactor*100}% LTV)</Dropdown.Toggle>
+												<Dropdown.Menu>
+													{pool.collateralAssets.map((collateralAsset: CollateralAsset, index: number) => (
+														<Dropdown.Item
+															key={index}
+															onClick={(event) => {
+																event.preventDefault()
+																event.currentTarget.blur()
+
+																setCollateralAsset(collateralAsset)
+															}}
+														>{collateralAsset.symbol} ({collateralAsset.collateralFactor*100}% LTV)</Dropdown.Item>
+													))}
+												</Dropdown.Menu>
+											</Dropdown>
+										</div>
+									</div>
 									<div className="row">
 										<div className="col-md-6">
 											<div className="form-group">
@@ -149,7 +189,6 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 												<div className="controls">
 													<input
 														type="text"
-														pattern="[0-9]*"
 														value={lendingAmount}
 														onChange={event => setLendingAmount(Number(event.currentTarget.value.replace(/\D/,"")))}
 														className="form-control"
@@ -188,7 +227,7 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 										<div className="col-md-6">
 											<div className="text-center mt-4">
 												<p className="small text-muted mb-2">
-													{pool.collateralAsset.symbol} Price:
+													{collateralAsset.symbol} Price:
 												</p>
 												<p className="lead">${collateralAssetPrice} <small className={"text-muted"}>USD</small></p>
 											</div>
