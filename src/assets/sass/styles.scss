@@ -1,0 +1,44 @@
+@import "variables";
+
+@import "~bootstrap/scss/bootstrap";
+
+// Theme
+@import "themes/dark";
+
+// Typography
+@import "typography";
+
+// Components
+@import "components/index";
+
+body {
+    background: $body-bg;
+    color: $text-color;
+    font-family: "Sora", sans-serif;
+}
+
+main.content {
+    min-height: 50vh;
+    padding: $space-md 0;
+}
+
+// Inputs
+label {
+    font-size: .9rem;
+    color: rgba(255, 255, 255, .75);
+    margin-bottom: .5rem;
+}
+
+.form-control {
+    background-color: #000;
+    color: #fff;
+    border-color: lighten(#111, 5%);
+
+    &:focus,
+    &:hover {
+        background-color: #000;
+        color: #fff;
+        border-color: lighten(#111, 5%);
+        box-shadow: none;
+    }
+}

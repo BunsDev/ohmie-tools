@@ -1,0 +1,29 @@
+.card {
+    background-color: #111;
+    color: $white;
+    border-color: lighten(#111, 5%);
+
+    &.highlighted {
+        box-shadow: 0 1px 30px -20px rgba(255, 255, 255, .5);
+    }
+
+    .card-header {
+        font-size: 1.25rem;
+        background-color: #111;
+        border-color: lighten(#111, 5%);
+    }
+
+    .list-group {
+        .list-group-item {
+            background-color: #111;
+            color: $white;
+            border-color: lighten(#111, 5%);
+        }
+
+        a.list-group-item {
+            &:hover {
+                background-color: darken(#111, 2%);
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&display=swap');
+
+p {
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #fff;
+        border-bottom: 1px dotted;
+
+        &:hover {
+            text-decoration: none;
+            color: #fff;
+            border-bottom-style: solid;
+        }
+    }
+}
