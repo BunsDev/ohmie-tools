@@ -41,7 +41,7 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 	}, [collateralAsset])
 
 	useEffect(() => {
-		//
+		setCollateralFactor(collateralAsset ? collateralAsset.collateralFactor : 0)
 	}, [collateralAsset])
 
 	useEffect(() => {
@@ -184,13 +184,13 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 										<div className="col-md-6">
 											<div className="form-group">
 												<label htmlFor="lendingAmount">
-													How much sKLIMA are you lending?
+													How much {collateralAsset.symbol} are you lending?
 												</label>
 												<div className="controls">
 													<input
-														type="text"
-														value={lendingAmount}
-														onChange={event => setLendingAmount(Number(event.currentTarget.value.replace(/\D/,"")))}
+														type="number"
+														defaultValue={lendingAmount}
+														onChange={event => setLendingAmount(Number(event.currentTarget.value))}
 														className="form-control"
 													/>
 													<p className="small text-muted mt-1">
@@ -208,10 +208,9 @@ export default function MarketXyzLiquidationPriceCalculator(): JSX.Element {
 												</label>
 												<div className="controls">
 													<input
-														type="text"
-														pattern="[0-9]*"
-														value={borrowAmount}
-														onChange={event => setBorrowAmount(Number(event.currentTarget.value.replace(/\D/,"")))}
+														type="number"
+														defaultValue={borrowAmount}
+														onChange={event => setBorrowAmount(Number(event.currentTarget.value))}
 														className="form-control"
 													/>
 													<p className="small text-muted mt-1">
